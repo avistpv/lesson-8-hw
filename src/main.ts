@@ -106,7 +106,8 @@ async function loadTasks() {
         renderTasks(tasks)
     } catch (error) {
         console.error('Error loading tasks:', error)
-        showError(`Failed to load tasks: ${error.message}. Please check if the server is running.`)
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+        showError(`Failed to load tasks: ${errorMessage}. Please check if the server is running.`)
     }
 }
 
