@@ -1,0 +1,36 @@
+{
+  "tasks": [
+    {
+      "id": "1",
+      "name": "Complete TypeScript homework",
+      "description": "Finish lesson 8 homework with json-server integration",
+      "createdAt": "2024-10-22T10:00:00Z",
+      "status": "completed",
+      "priority": "high"
+    },
+    {
+      "id": "2",
+      "name": "Review API documentation",
+      "description": "Study REST API best practices",
+      "createdAt": "2024-10-22T09:30:00Z",
+      "status": "pending",
+      "priority": "medium"
+    },
+    {
+      "id": "3",
+      "name": "Test CRUD operations",
+      "description": "Verify all task operations work correctly",
+      "createdAt": "2024-10-22T11:00:00Z",
+      "status": "completed",
+      "priority": "low"
+    },
+    {
+      "id": "e495",
+      "name": "Test01",
+      "description": "testing creating new task feature\n\nDeadline: 10/31/2025",
+      "status": "in-progress",
+      "priority": "medium",
+      "createdAt": "2025-10-22T10:08:57.818Z"
+    }
+  ]
+}

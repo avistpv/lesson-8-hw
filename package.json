@@ -1,0 +1,17 @@
+{
+  "name": "lesson-8-hw",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "server": "json-server --watch db.json --port 3001"
+  },
+  "devDependencies": {
+    "json-server": "^1.0.0-beta.3",
+    "typescript": "~5.9.3",
+    "vite": "^7.1.7"
+  }
+}

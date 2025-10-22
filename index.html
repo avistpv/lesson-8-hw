@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Today Tasks</title>
+</head>
+<body>
+<div id="app">
+    <header>
+        <h1>Today Tasks</h1>
+    </header>
+
+    <main>
+        <div class="main-content">
+            <div class="task-section">
+                <h2 class="task-list-header">Task List</h2>
+                <div id="loading" class="loading hidden">Loading tasks...</div>
+                <div id="error" class="error hidden"></div>
+                <div id="task-list" class="task-list">
+                    <!-- new tasks here -->
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>Create New Task</h2>
+                <form id="task-form" class="task-form">
+                    <div class="form-group">
+                        <label for="task-name">Task Name</label>
+                        <input type="text" id="task-name" name="name" required placeholder="Enter task name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="task-description">Description</label>
+                        <textarea id="task-description" name="description" required
+                                  placeholder="Enter task description"></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="task-status">Status</label>
+                            <select id="task-status" name="status" required>
+                                <option value="pending">Pending</option>
+                                <option value="in-progress">In Progress</option>
+                                <option value="completed">Completed</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="task-priority">Priority</label>
+                            <select id="task-priority" name="priority" required>
+                                <option value="low">Low</option>
+                                <option value="medium">Medium</option>
+                                <option value="high">High</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="task-deadline">Deadline</label>
+                        <input type="date" id="task-deadline" name="deadline">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-full">Create Task</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <div id="task-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Task Details</h2>
+                <button id="close-modal" class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="task-detail">
+                    <p><strong>Description:</strong> <span id="modal-description"></span></p>
+                    <p><strong>Status:</strong> <span id="modal-status"></span></p>
+                    <p><strong>Priority:</strong> <span id="modal-priority"></span></p>
+                    <p><strong>Created:</strong> <span id="modal-created"></span></p>
+                </div>
+                <div class="modal-actions">
+                    <button id="toggle-status-btn" class="btn btn-primary">Toggle Status</button>
+                    <button id="delete-task-btn" class="btn btn-danger">Delete Task</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="module" src="/src/main.ts"></script>
+</body>
+</html>
