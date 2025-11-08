@@ -1,5 +1,14 @@
 import './style.css'
-import {getAllTasks, createTask, deleteTask, patchTask, type Task} from './utilities'
+import {
+    getAllTasks,
+    createTask,
+    deleteTask,
+    patchTask,
+    type CreateTaskData,
+    type Task,
+    type TaskPriority,
+    type TaskStatus
+} from './utilities'
 
 const taskList = document.getElementById('task-list') as HTMLDivElement
 const loadingElement = document.getElementById('loading') as HTMLDivElement
@@ -11,6 +20,7 @@ const modalDescription = document.getElementById('modal-description') as HTMLSpa
 const modalStatus = document.getElementById('modal-status') as HTMLSpanElement
 const modalPriority = document.getElementById('modal-priority') as HTMLSpanElement
 const modalCreated = document.getElementById('modal-created') as HTMLSpanElement
+const modalDeadline = document.getElementById('modal-deadline') as HTMLSpanElement
 const closeModalBtn = document.getElementById('close-modal') as HTMLButtonElement
 const toggleStatusBtn = document.getElementById('toggle-status-btn') as HTMLButtonElement
 const deleteTaskBtn = document.getElementById('delete-task-btn') as HTMLButtonElement
@@ -114,13 +124,20 @@ async function loadTasks() {
 async function handleFormSubmit(event: Event) {
     event.preventDefault()
 
-    const formData = new FormData(taskForm)
-    const taskData = {
-        name: formData.get('name') as string,
-        description: formData.get('description') as string,
-        status: formData.get('status') as 'pending' | 'in-progress' | 'completed',
-        priority: formData.get('priority') as 'low' | 'medium' | 'high',
-        deadline: formData.get('deadline') as string
+    const formEntries = Object.fromEntries(new FormData(taskForm)) as Record<string, FormDataEntryValue>
+    const name = formEntries.name?.toString().trim() ?? ''
+    const description = formEntries.description?.toString().trim() ?? ''
+    const status = formEntries.status?.toString() as TaskStatus
+    const priority = formEntries.priority?.toString() as TaskPriority
+    const deadlineInput = formEntries.deadline?.toString().trim()
+    const deadline = deadlineInput ? new Date(deadlineInput).toISOString() : undefined
+
+    const taskData: CreateTaskData = {
+        name,
+        description,
+        status,
+        priority,
+        ...(deadline ? {deadline} : {})
     }
 
     if (!taskData.name || !taskData.description) {
@@ -130,14 +147,7 @@ async function handleFormSubmit(event: Event) {
 
     try {
         console.log('Creating new task...', taskData)
-        const newTask = await createTask({
-            name: taskData.name,
-            description: taskData.deadline
-                ? `${taskData.description}\n\nDeadline: ${new Date(taskData.deadline).toLocaleDateString()}`
-                : taskData.description,
-            status: taskData.status,
-            priority: taskData.priority
-        })
+        const newTask = await createTask(taskData)
 
         console.log('Task created successfully:', newTask)
 
@@ -167,6 +177,7 @@ function openTaskModal(task: Task) {
     modalStatus.textContent = task.status
     modalPriority.textContent = task.priority
     modalCreated.textContent = formatDate(task.createdAt)
+    modalDeadline.textContent = task.deadline ? new Date(task.deadline).toLocaleDateString() : 'No deadline set'
 
     toggleStatusBtn.textContent = task.status === 'completed' ? 'Mark Incomplete' : 'Mark Complete'
 

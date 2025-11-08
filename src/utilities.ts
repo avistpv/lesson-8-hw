@@ -1,26 +1,21 @@
+export type TaskStatus = 'pending' | 'in-progress' | 'completed';
+export type TaskPriority = 'low' | 'medium' | 'high';
+
 export interface Task {
-  id: number | string;
+  id: string;
   name: string;
   description: string;
   createdAt: string;
-  status: 'pending' | 'in-progress' | 'completed';
-  priority: 'low' | 'medium' | 'high';
+  status: TaskStatus;
+  priority: TaskPriority;
+  deadline?: string;
 }
 
-export interface CreateTaskData {
-  name: string;
-  description: string;
-  status: 'pending' | 'in-progress' | 'completed';
-  priority: 'low' | 'medium' | 'high';
-}
+export type CreateTaskData = Omit<Task, 'id' | 'createdAt'>;
 
-export interface UpdateTaskData {
-  id: number | string;
-  name?: string;
-  description?: string;
-  status?: 'pending' | 'in-progress' | 'completed';
-  priority?: 'low' | 'medium' | 'high';
-}
+export type UpdateTaskData = {
+  id: string;
+} & Partial<CreateTaskData>;
 
 const BASE_URL = '/api';
 
@@ -61,11 +56,11 @@ export async function getAllTasks(): Promise<Task[]> {
   return apiRequest<Task[]>(`${BASE_URL}/tasks`);
 }
 
-export async function getTaskById(id: number | string): Promise<Task> {
+export async function getTaskById(id: string): Promise<Task> {
   return apiRequest<Task>(`${BASE_URL}/tasks/${id}`);
 }
 
-export async function updateTask(id: number | string, taskData: Omit<Task, 'id' | 'createdAt'>): Promise<Task> {
+export async function updateTask(id: string, taskData: CreateTaskData): Promise<Task> {
   return apiRequest<Task>(`${BASE_URL}/tasks/${id}`, {
     method: 'PUT',
     body: JSON.stringify(taskData),
@@ -80,7 +75,7 @@ export async function patchTask(updateData: UpdateTaskData): Promise<Task> {
   });
 }
 
-export async function deleteTask(id: number | string): Promise<void> {
+export async function deleteTask(id: string): Promise<void> {
   await apiRequest<void>(`${BASE_URL}/tasks/${id}`, {
     method: 'DELETE',
   });
