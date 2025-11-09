@@ -74,7 +74,7 @@ function createTaskTile(task: Task): HTMLDivElement {
     tile.onclick = () => openTaskModal(task)
 
     tile.innerHTML = `
-    <div class="task-icon ${task.status.replace('-', '-')}">
+    <div class="task-icon ${task.status}">
       ${getStatusIcon(task.status)}
     </div>
     <div class="task-content">
@@ -130,7 +130,7 @@ async function handleFormSubmit(event: Event) {
     const status = formEntries.status?.toString() as TaskStatus
     const priority = formEntries.priority?.toString() as TaskPriority
     const deadlineInput = formEntries.deadline?.toString().trim()
-    const deadline = deadlineInput ? new Date(deadlineInput).toISOString() : undefined
+    const deadline = deadlineInput || undefined
 
     const taskData: CreateTaskData = {
         name,
